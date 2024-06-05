@@ -12,6 +12,26 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <header>
+            <nav>
+                <form action="search" method="GET">
+                    <input type="text" name="searchText" placeholder="Search...">
+                    <input type="hidden" name="command" value="search">
+                    <input type="submit" value="Search">
+                </form>
+            </nav>
+        </header>
+        <div class="vacanciesBody">
+            <c:forEach var="vacancy" items="${vacancies}">
+                <div class="vacancyContainer" id="${vacancy.getId}">
+                    <h3><c:out value="${vacancy.getTitle}"/></h3>
+                    <p><c:out value="${vacancy.getDescription}"/></p>
+                    <form action="riddles" method="GET">
+                        <input type="hidden" name="command" value="view"/>
+                        <input type="hidden" name="id" value="${vacancy.id}" />
+                        <input type="submit" value="View" />
+                    </form></div>
+            </c:forEach>
+        </div>
     </body>
 </html>

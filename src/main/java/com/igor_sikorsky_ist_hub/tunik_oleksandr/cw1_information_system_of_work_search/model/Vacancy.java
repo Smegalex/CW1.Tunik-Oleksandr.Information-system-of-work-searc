@@ -108,7 +108,13 @@ public class Vacancy implements IdMechanism{
         setId(creation);
     }
     
-    
+    public boolean checkKeywords(String keywords){
+        String search = keywords.toLowerCase().strip();
+        if(this.title.contains((CharSequence) search.chars())){
+            return true;
+        } 
+        return this.description.contains((CharSequence) search.chars());
+    }
     
     
 }

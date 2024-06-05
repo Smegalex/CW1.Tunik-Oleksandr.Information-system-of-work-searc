@@ -19,6 +19,7 @@
                     <input type="hidden" name="command" value="search">
                     <input type="submit" value="Search">
                 </form>
+                <a href="/users"><img src="../../img/account.png" alt="alt"/></a>
             </nav>
         </header>
         <div class="vacanciesBody">

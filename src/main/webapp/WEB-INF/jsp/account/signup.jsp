@@ -23,6 +23,7 @@
             <label>Choose a type of account you want to create:</label><br>
             <input type="radio" name="accountType" id="employee" value="employee"/><label for="employee">Employee</label><br>
             <input type="radio" name="accountType" id="employer" value="employer"/><label for="employer">Employer</label><br><br>
+            <input type="hidden" name="command" value="signup"/>
             <input type="submit" name="submit" value="Submit"/>
         </form>
     </body>

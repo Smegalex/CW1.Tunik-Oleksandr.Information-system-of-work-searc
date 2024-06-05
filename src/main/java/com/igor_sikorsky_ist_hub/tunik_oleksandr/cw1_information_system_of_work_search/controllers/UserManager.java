@@ -36,17 +36,19 @@ public class UserManager extends HttpServlet {
     }
 
     @Override
-     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("email");
         String password = request.getParameter("password");
-        String roleName = request.getParameter("roleName"); 
+        String fullName = request.getParameter("fullName");
+        String roleName = request.getParameter("accountType");
+        String command = request.getParameter("command");
 
         try {
-              MBeanServerConnection mbsc = ManagementFactory.getPlatformMBeanServer();
+            MBeanServerConnection mbsc = ManagementFactory.getPlatformMBeanServer();
             ObjectName objectName = new ObjectName("Catalina:type=UserDatabase,database=UserDatabase");
 
             // Add a new user
-            mbsc.invoke(objectName, "createUser", new Object[]{username, password, "Full Name"}, new String[]{"java.lang.String", "java.lang.String", "java.lang.String"});
+            mbsc.invoke(objectName, "createUser", new Object[]{username, password, fullName}, new String[]{"java.lang.String", "java.lang.String", "java.lang.String"});
 
             // Assign the role to the user
             mbsc.invoke(objectName, "addRole", new Object[]{username, roleName}, new String[]{"java.lang.String", "java.lang.String"});
@@ -56,6 +58,7 @@ public class UserManager extends HttpServlet {
             response.getWriter().write("An error occurred: " + e.getMessage());
         }
     }
+
     @Override
     public String getServletInfo() {
         return "Short description";

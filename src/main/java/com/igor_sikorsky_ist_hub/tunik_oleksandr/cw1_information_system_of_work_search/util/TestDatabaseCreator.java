@@ -10,10 +10,8 @@ import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_
 import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Employee;
 import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Employer;
 import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Vacancy;
-import java.lang.management.ManagementFactory;
+import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.VacancyAnswer;
 import java.util.Iterator;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
 import javax.naming.InitialContext;
 import org.apache.catalina.Role;
 import org.apache.catalina.User;
@@ -80,14 +78,20 @@ public class TestDatabaseCreator {
                 "We are looking for a young and passionate retail tech store worker with "
                 + "at least 20 years of experience in the industry that knows "
                 + "how to follow management's orders.", playTech);
-
+        
         vacancyDao.create(manager);
-
-        manager.addAnswer(kravMax, "Hi, my name is Max, I am just 20 years old but am very "
+        
+        VacancyAnswer answer = manager.addAnswer(kravMax, "Hi, my name is Max, I am just 20 years old but am very "
                 + "interested in your proposition and have experience in the business. I have "
                 + "good references and attitude. I also manage people quite well.");
+        
+        kravMax.addAnswer(answer);
+        playTech.addVacancy(manager);
+        playTech.addVacancy(retailer);
 
         vacancyDao.update(manager);
+        employeeDao.update(kravMax);
+        employerDao.update(playTech);
         vacancyDao.create(retailer);
     }
 }

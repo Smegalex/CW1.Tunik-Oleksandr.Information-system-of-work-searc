@@ -71,17 +71,75 @@ public class VacancyController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String command = request.getParameter("command");
+
         if (command == null) {
             command = "showList";
         }
         switch (command) {
             case "leaveAnswer":
                 leaveAnswer(request, response);
-//            case "showList":
+                return;
+            case "createRedirect":
+                request.getRequestDispatcher("WEB-INF/jsp/employer/create.jsp").forward(request, response);
+                return;
+            case "create":
+                createVacancy(request, response);
+                return;
+            case "answers":
+                request.setAttribute("vacancy", vacancyDao.findByIdAndClosed(Long.valueOf(request.getParameter("id"))));
+                request.getRequestDispatcher("WEB-INF/jsp/employer/answers.jsp").forward(request, response);
+                return;
+            case "editRedirect":
+                request.setAttribute("vacancy", vacancyDao.findByIdAndClosed(Long.valueOf(request.getParameter("id"))));
+                request.getRequestDispatcher("WEB-INF/jsp/employer/edit.jsp").forward(request, response);
+                return;
+            case "edit":
+                edit(request, response);
+                return;
+            case "delete":
+                delete(request, response);
+                return;
             default:
                 showList(request, response);
         }
 
+    }
+
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long id = Long.valueOf(request.getParameter("id"));
+        vacancyDao.deleteById(id);
+
+        request.setAttribute("popupCondition", true);
+        request.setAttribute("popupTitle", "Vacancy deleted successfully.");
+        request.setAttribute("popupBody", "");
+        request.setAttribute("popupStatus", "success");
+        request.getRequestDispatcher("/users?command=employer").forward(request, response);
+    }
+
+    public void edit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        Long id = Long.valueOf(request.getParameter("id"));
+
+        String user = request.getRemoteUser();
+        Employer employer = this.employerDao.findByLogin(user);
+
+        Vacancy vacancy = vacancyDao.findByIdAndClosed(id);
+
+        vacancy.setOpenStatus(status);
+        vacancy.setTitle(title);
+        vacancy.setDescription(description);
+
+        vacancyDao.update(vacancy);
+
+        request.setAttribute("popupCondition", true);
+        request.setAttribute("popupTitle", "Vacancy updated successfully.");
+        request.setAttribute("popupBody", "");
+        request.setAttribute("popupStatus", "success");
+        request.getRequestDispatcher("/users?command=employer").forward(request, response);
     }
 
     private void showList(HttpServletRequest request, HttpServletResponse response)
@@ -90,6 +148,24 @@ public class VacancyController extends HttpServlet {
         vacancies.addAll(vacancyDao.findAll());
         request.setAttribute("vacancies", vacancies);
         request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+    }
+
+    private void createVacancy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+
+        String user = request.getRemoteUser();
+        Employer employer = this.employerDao.findByLogin(user);
+
+        Vacancy vacancy = new Vacancy(title, description, employer);
+        vacancyDao.create(vacancy);
+        employer.addVacancy(vacancy);
+        employerDao.update(employer);
+        request.setAttribute("popupCondition", true);
+        request.setAttribute("popupTitle", "Vacancy created successfully.");
+        request.setAttribute("popupBody", "");
+        request.setAttribute("popupStatus", "success");
+        request.getRequestDispatcher("/users?command=employer").forward(request, response);
     }
 
     private void viewDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -205,7 +281,7 @@ public class VacancyController extends HttpServlet {
             }
         }
         );
-        
+
         sortedEntries.addAll(map.entrySet());
         List<K> keys = new ArrayList<>();
 
@@ -213,7 +289,7 @@ public class VacancyController extends HttpServlet {
         for (Map.Entry<K, V> entry : sortedEntries) {
             keys.add(entry.getKey());
         }
-        
+
         return keys;
     }
 }

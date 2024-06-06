@@ -15,7 +15,9 @@ public interface VacancyDao {
     //CRUD
     void create(Vacancy vacancy);
     Vacancy findById(Long id);
+    Vacancy findByIdAndClosed(Long id);
     Collection<Vacancy> findAll();
+    Collection<Vacancy> findAllAndClosed();
     void update(Vacancy vacancy);
     void deleteById(Long id);
 }

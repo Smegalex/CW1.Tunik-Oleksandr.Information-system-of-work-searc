@@ -264,6 +264,7 @@ button:hover {
 }
 
 .profileContentWrapper{
+    height: calc(100% - 70px);
     padding: 0 15px;
 }
 
@@ -304,4 +305,15 @@ button:hover {
 
 .answer form input[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+.vacancyList{
+    overflow: auto;
+    max-height: 450px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

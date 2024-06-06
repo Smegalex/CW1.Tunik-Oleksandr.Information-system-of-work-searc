@@ -68,6 +68,10 @@ public class VacancyAnswer implements IdMechanism {
         return answer;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
     public Vacancy getVacancy() {
         return vacancy;
     }

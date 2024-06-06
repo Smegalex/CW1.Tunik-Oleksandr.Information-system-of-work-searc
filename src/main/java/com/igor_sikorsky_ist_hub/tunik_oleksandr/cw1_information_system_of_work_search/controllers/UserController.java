@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Collection;
 import java.util.Iterator;
 import javax.naming.InitialContext;
 import org.apache.catalina.Role;
@@ -103,7 +102,12 @@ public class UserController extends HttpServlet {
                 case "login":
                     login(request, response);
                     break;
-
+                case "employer":
+                    String user = request.getRemoteUser();
+                    Employer employer = this.employerDao.findByLogin(user);
+                    request.setAttribute("user", employer);
+                    request.getRequestDispatcher("WEB-INF/jsp/employer/profile.jsp").forward(request, response);
+                    break;
                 default:
                     response.sendError(400, "Wrong command to UserController.");
             }

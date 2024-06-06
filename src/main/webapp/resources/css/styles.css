@@ -47,10 +47,11 @@ header{
 }
 nav{
     width: 100%;
-    padding:     5px;
+    padding:   5px  5%;
     height: calc(100% - 10px);
     display: flex;
     flex-direction: row;
+    justify-content:space-between;
     align-items: center;
 }
 nav > form{
@@ -61,12 +62,17 @@ nav > form{
 nav > form input[type="text"]{
     flex-grow: 1;
 }
+
+nav > a{
+    height: 80%;
+}
+
 form input {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-right: 10px;
-    
+
 }
 form input[type="submit"] {
     padding: 8px 16px;
@@ -80,13 +86,7 @@ form input[type="submit"]:hover {
     background-color: #004494;
 }
 
-nav>a{
-    flex-grow: 1;
-    padding-left: 15%;
-}
-
 a{
-    height: 80%;
     display: flex;
     align-items: center;
     color: #007bff;
@@ -219,6 +219,10 @@ button:hover {
     align-items: center;
 }
 
+.vacancyMeatWrapper{
+    padding: 0 15px;
+}
+
 .vacancy-details {
     padding: 20px;
 }
@@ -243,10 +247,61 @@ button:hover {
     color: #333;
 }
 
-.leaveAnswer{
+.answerWrapper{
     display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leaveAnswer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .showing {
     display: flex;
+}
+
+.profileContentWrapper{
+    padding: 0 15px;
+}
+
+.answerList {
+    padding: 20px;
+    overflow: auto;
+}
+
+.answer {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.answer h3 {
+    margin-top: 0;
+}
+
+.answer p {
+    color: #333;
+}
+
+.answer form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.answer form input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.answer form input[type="submit"]:hover {
+    background-color: #0056b3;
 }

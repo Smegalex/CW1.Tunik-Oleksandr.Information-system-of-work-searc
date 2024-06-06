@@ -14,9 +14,9 @@ import java.util.Collection;
 public interface EmployerDao {
     //CRUD
     void create(Employer employer);
-    Employer findById(Integer id);
+    Employer findById(Long id);
     Employer findByLogin(String login);
     Collection<Employer> findAll();
     void update(Employer employer);
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }

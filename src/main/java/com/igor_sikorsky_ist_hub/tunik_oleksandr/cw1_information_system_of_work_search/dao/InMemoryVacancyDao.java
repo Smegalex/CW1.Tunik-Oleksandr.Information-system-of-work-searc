@@ -13,19 +13,19 @@ import java.util.TreeMap;
  * @author sasha
  */
 public class InMemoryVacancyDao implements VacancyDao{
-    private TreeMap<Integer, Vacancy> vacancies = new TreeMap<>();
+    private TreeMap<Long, Vacancy> vacancies = new TreeMap<>();
 
     @Override
     public void create(Vacancy employer) {
         if (employer.getId() == null) {
-            int id = vacancies.isEmpty() ? 1 : vacancies.lastKey() + 1;
+            long id = vacancies.isEmpty() ? 1 : vacancies.size() + 1;
             employer.createId(id);
         }
         vacancies.put(employer.getId(), employer);
     }
 
     @Override
-    public Vacancy findById(Integer id) {
+    public Vacancy findById(Long id) {
         return vacancies.get(id);
     }
 
@@ -40,7 +40,7 @@ public class InMemoryVacancyDao implements VacancyDao{
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         vacancies.remove(id);
     }
 }

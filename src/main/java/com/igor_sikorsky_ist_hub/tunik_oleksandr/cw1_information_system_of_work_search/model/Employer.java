@@ -12,26 +12,26 @@ import java.util.TreeMap;
  */
 public class Employer extends Profile implements IdMechanism {
 
-    private Integer id; //id pattern: * (starts with "4")
+    private Long id; //id pattern: * (starts with "4")
     private final String idPattern = "^[4].+";
-    private TreeMap<Integer, Vacancy> postedVacancies;
+    private TreeMap<Long, Vacancy> postedVacancies = new TreeMap<>();
 
     public Employer(String name, String email) {
         super(name, email);
     }
 
-    public Employer(Integer id, String name, String email) {
+    public Employer(Long id, String name, String email) {
         super(name, email);
         checkId(id);
         this.id = id;
     }
 
-    public Employer(TreeMap<Integer, Vacancy> postedVacancies, String name, String email) {
+    public Employer(TreeMap<Long, Vacancy> postedVacancies, String name, String email) {
         super(name, email);
         this.postedVacancies = postedVacancies;
     }
 
-    public Employer(Integer id, TreeMap<Integer, Vacancy> postedVacancies, String name, String email) {
+    public Employer(Long id, TreeMap<Long, Vacancy> postedVacancies, String name, String email) {
         super(name, email);
         checkId(id);
         this.id = id;
@@ -39,7 +39,7 @@ public class Employer extends Profile implements IdMechanism {
     }
 
     @Override
-    public final void checkId(Integer id) throws IllegalArgumentException {
+    public final void checkId(Long id) throws IllegalArgumentException {
         String actual = String.valueOf(id);
 
         if (!actual.matches(idPattern)) {
@@ -47,32 +47,32 @@ public class Employer extends Profile implements IdMechanism {
         }
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         checkId(id);
         this.id = id;
     }
 
     public void addVacancy(Vacancy vacancy) {
         if (vacancy.getId() == null) {
-            Integer id = postedVacancies.isEmpty() ? 1 : postedVacancies.lastKey() + 1;
+            Long id = postedVacancies.isEmpty() ? 1 : Long.valueOf(postedVacancies.size() + 1);
             vacancy.createId(id);
         }
 
         postedVacancies.put(vacancy.getId(), vacancy);
     }
 
-    public TreeMap<Integer, Vacancy> getPostedVacancies() {
+    public TreeMap<Long, Vacancy> getPostedVacancies() {
         return postedVacancies;
     }
 
     @Override
-    public void createId(Integer id) {
-        Integer creation = Integer.valueOf("4" + id.toString());
+    public void createId(Long id) {
+        Long creation = Long.valueOf("4" + id.toString());
         setId(creation);
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 }

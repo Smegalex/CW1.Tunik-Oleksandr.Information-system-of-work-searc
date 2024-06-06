@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="<c:url value='/resources/css/styles.css'/>"/>
     </head>
     <body>
+        
         <div class="login-container">
             <h1>Create an account:</h1>
             <form action="users" method="POST" class="login-form">

@@ -75,9 +75,11 @@ public class UserController extends HttpServlet {
         } else {
             switch (role) {
                 case "employee":
+                    request.setAttribute("user", employee);
                     request.getRequestDispatcher("WEB-INF/jsp/employee/profile.jsp").forward(request, response);
                     break;
                 case "employer":
+                    request.setAttribute("user", employer);
                     request.getRequestDispatcher("WEB-INF/jsp/employer/profile.jsp").forward(request, response);
                     break;
                 default:

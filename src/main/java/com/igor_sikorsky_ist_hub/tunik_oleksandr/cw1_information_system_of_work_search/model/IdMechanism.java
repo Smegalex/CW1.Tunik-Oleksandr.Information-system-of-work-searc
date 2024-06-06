@@ -9,7 +9,7 @@ package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work
  * @author sasha
  */
 public interface IdMechanism {
-    void checkId(Integer id) throws IllegalArgumentException;
-    void createId(Integer id);
-    Integer getId();
+    void checkId(Long id) throws IllegalArgumentException;
+    void createId(Long id);
+    Long getId();
 }

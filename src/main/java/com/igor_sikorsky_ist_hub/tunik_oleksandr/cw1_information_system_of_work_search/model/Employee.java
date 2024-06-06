@@ -4,27 +4,42 @@
  */
 package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model;
 
+import java.util.TreeMap;
+
 /**
  *
  * @author sasha
  */
 public class Employee extends Profile implements IdMechanism {
 
-    private Integer id; //id pattern: 3* (starts with "3")
+    private Long id; //id pattern: 3* (starts with "3")
     private final String idPattern = "^[3].+";
+    private TreeMap<Long, VacancyAnswer> answers = new TreeMap<>();
 
     public Employee(String name, String email) {
         super(name, email);
     }
 
-    public Employee(Integer id, String name, String email) {
+    public Employee(Long id, String name, String email) {
         super(name, email);
         checkId(id);
         this.id = id;
     }
 
+    public Employee(TreeMap<Long, VacancyAnswer> answers, String name, String email) {
+        super(name, email);
+        this.answers = answers;
+    }
+
+    public Employee(Long id, TreeMap<Long, VacancyAnswer> answers, String name, String email) {
+        super(name, email);
+        checkId(id);
+        this.id = id;
+        this.answers = answers;
+    }
+
     @Override
-    public final void checkId(Integer id) throws IllegalArgumentException {
+    public final void checkId(Long id) throws IllegalArgumentException {
         String actual = String.valueOf(id);
 
         if (!actual.matches(idPattern)) {
@@ -32,19 +47,33 @@ public class Employee extends Profile implements IdMechanism {
         }
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         checkId(id);
         this.id = id;
     }
 
     @Override
-    public void createId(Integer id) {
-        Integer creation = Integer.valueOf("3" + id.toString());
+    public void createId(Long id) {
+        Long creation = Long.valueOf("3" + id.toString());
         setId(creation);
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
+
+    public void addAnswer(VacancyAnswer answer) {
+        if (answer.getId() == null) {
+            Long id = answers.isEmpty() ? 1 : Long.valueOf(answers.size() + 1);
+            answer.createId(id);
+        }
+
+        answers.put(answer.getId(), answer);
+    }
+
+    public TreeMap<Long, VacancyAnswer> getAnswers() {
+        return answers;
+    }
+
 }

@@ -18,12 +18,20 @@
             <div class="mainContainer">
                 <header>
                     <nav>
-                        <form action="search" method="GET">
+                        <a class="homeLink" href="${pageContext.request.contextPath}/vacancies"><img src="<c:url value='/resources/img/home.png'/>" alt="home icon"/></a>
+                        <form action="vacancies" method="GET">
                             <input type="text" name="searchText" placeholder="Search...">
-                            <input type="hidden" name="command" value="search">
-                            <input type="submit" value="Search">
-                        </form>
-                        <a href="${pageContext.request.contextPath}/users"><img src="<c:url value='/resources/img/account.png'/>" alt="profile icon"/></a>
+                            <select id="sorting" name="sorting">
+                                <option value="byRelevance" <c:if test="sortBy == ${'byRelevance'}">selected="true"</c:if>>By Relevance</option>
+                                <option value="alphabetically" <c:if test="sortBy == ${'alphabetically'}">selected="true"</c:if>>Alphabetically</option>
+                                <option value="contrAlphabetically" <c:if test="sortBy == ${'contrAlphabetically'}">selected="true"</c:if>>Contr Alphabetically</option>
+                                <option value="newToOld" <c:if test="sortBy == ${'newToOld'}">selected="true"</c:if>>New to Old</option>
+                                <option value="oldToNew" <c:if test="sortBy == ${'oldToNew'}">selected="true"</c:if>>Old to New</option>
+                                </select>
+                                <input type="hidden" name="command" value="search">
+                                <input type="submit" value="Search">
+                            </form>
+                            <a href="${pageContext.request.contextPath}/users"><img src="<c:url value='/resources/img/account.png'/>" alt="profile icon"/></a>
                     </nav>
                 </header>
                 <div class="vacanciesBody">
@@ -41,5 +49,17 @@
                 </div>
             </div>
         </div>
+        <div class="popupContainer <c:if test="${popupCondition}">showing</c:if> ${popupStatus}">
+                <div class="popupContent">
+                    <h2>${popupTitle}</h2>
+                <p>${popupBody}</p>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        </div>  
+        <script>
+            function closePopup() {
+                document.getElementsByClassName('popupContainer')[0].classList.remove('showing');
+            }
+        </script>
     </body>
 </html>

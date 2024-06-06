@@ -14,10 +14,10 @@ import java.util.Collection;
 public interface VacancyDao {
     //CRUD
     void create(Vacancy vacancy);
-    Vacancy findById(Integer id);
+    Vacancy findById(Long id);
     Collection<Vacancy> findAll();
     void update(Vacancy vacancy);
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }
 
 

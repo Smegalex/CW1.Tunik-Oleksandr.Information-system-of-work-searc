@@ -4,7 +4,9 @@
  */
 package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model;
 
+import static com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Vacancy.CUSTOM_FORMATTER;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -12,14 +14,15 @@ import java.time.LocalDateTime;
  */
 public class VacancyAnswer implements IdMechanism {
 
-    private Integer id;
+    private Long id;
     private final Vacancy vacancy;
     private final Employee employee;
     private final LocalDateTime dateTimeAnswer;
     private final String answer;
     private final String idPattern = "^[2].+"; //id pattern: 2[vacancyId][employeeId][id] (starts with "2")
+    final static DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public VacancyAnswer(Integer id, Vacancy vacancy, Employee employee, String answer) {
+    public VacancyAnswer(Long id, Vacancy vacancy, Employee employee, String answer) {
         checkId(id);
         this.id = id;
         this.vacancy = vacancy;
@@ -38,18 +41,18 @@ public class VacancyAnswer implements IdMechanism {
     }
 
     @Override
-    public void createId(Integer id) {
-        Integer creation = Integer.valueOf("2" + this.employee.getId().toString() + this.vacancy.getId().toString() + id.toString());
+    public void createId(Long id) {
+        Long creation = Long.valueOf("2" + this.employee.getId().toString() + this.vacancy.getId().toString() + id.toString());
         setId(creation);
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         checkId(id);
         this.id = id;
     }
-    
+
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -57,12 +60,20 @@ public class VacancyAnswer implements IdMechanism {
         return dateTimeAnswer;
     }
 
+    public String formatTime() {
+        return dateTimeAnswer.format(CUSTOM_FORMATTER);
+    }
+
     public String getAnswer() {
         return answer;
     }
 
+    public Vacancy getVacancy() {
+        return vacancy;
+    }
+
     @Override
-    public final void checkId(Integer id) throws IllegalArgumentException {
+    public final void checkId(Long id) throws IllegalArgumentException {
         String actual = String.valueOf(id);
 
         if (!actual.matches(idPattern)) {

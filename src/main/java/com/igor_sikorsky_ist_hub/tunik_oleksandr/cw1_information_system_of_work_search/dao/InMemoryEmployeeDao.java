@@ -15,25 +15,25 @@ import java.util.TreeMap;
  */
 public class InMemoryEmployeeDao implements EmployeeDao {
 
-    private TreeMap<Integer, Employee> employees = new TreeMap<>();
+    private TreeMap<Long, Employee> employees = new TreeMap<>();
 
     @Override
     public void create(Employee employee) {
         if (employee.getId() == null) {
-            int id = employees.isEmpty() ? 1 : employees.lastKey() + 1;
+            long id = employees.isEmpty() ? 1 : employees.size() + 1;
             employee.createId(id);
         }
         employees.put(employee.getId(), employee);
     }
 
     @Override
-    public Employee findById(Integer id) {
+    public Employee findById(Long id) {
         return employees.get(id);
     }
 
     @Override
     public Employee findByLogin(String email) {
-        for (Map.Entry<Integer, Employee> entry : employees.entrySet()) {
+        for (Map.Entry<Long, Employee> entry : employees.entrySet()) {
             Employee emp = entry.getValue();
             if (emp.getEmail().equals(email)) {
                 return emp;
@@ -53,7 +53,7 @@ public class InMemoryEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         employees.remove(id);
     }
 

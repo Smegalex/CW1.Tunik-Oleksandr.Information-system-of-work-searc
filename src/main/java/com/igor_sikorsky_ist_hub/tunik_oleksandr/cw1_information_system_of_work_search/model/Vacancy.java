@@ -4,6 +4,7 @@
  */
 package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model;
 
+import static java.rmi.server.LogStream.log;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -14,17 +15,17 @@ import java.util.TreeMap;
  * @author sasha
  */
 public class Vacancy implements IdMechanism, Comparable<Vacancy>{
-    private Integer id; //id pattern: 1* (starts with "1")
+    private Long id; //id pattern: 1* (starts with "1")
     private String title;
     private String description;
     private final Employer employer;
     private final LocalDateTime dateTimePosted;
-    private TreeMap<Integer, VacancyAnswer> answers = new TreeMap<>();
+    private TreeMap<Long, VacancyAnswer> answers = new TreeMap<>();
     private boolean openStatus = true;
     private final String idPattern = "^[1].+";
     final static DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
-    public Vacancy(Integer id, String title, String description, Employer employer) {
+    public Vacancy(Long id, String title, String description, Employer employer) {
         checkId(id);
         this.id = id;
         this.title = title;
@@ -42,16 +43,17 @@ public class Vacancy implements IdMechanism, Comparable<Vacancy>{
         this.dateTimePosted = LocalDateTime.now();
     }
 
-    public TreeMap<Integer, VacancyAnswer> getAnswers() {
+    public TreeMap<Long, VacancyAnswer> getAnswers() {
         return answers;
     }
     
-    public void addAnswer(Employee employee, String answer){
-        Integer id = answers.isEmpty() ? 1 : answers.lastKey() + 1;
+    public VacancyAnswer addAnswer(Employee employee, String answer){
+        Long id = answers.isEmpty() ? 1 : Long.valueOf(answers.size() + 1);
         VacancyAnswer vacancyAnswer = new VacancyAnswer(this, employee, answer);
         vacancyAnswer.createId(id);
         
         this.answers.put(vacancyAnswer.getId(), vacancyAnswer);
+        return vacancyAnswer;
     }
 
     public void setOpenStatus(boolean openStatus) {
@@ -83,11 +85,11 @@ public class Vacancy implements IdMechanism, Comparable<Vacancy>{
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         checkId(id);
         this.id = id;
     }
@@ -101,7 +103,7 @@ public class Vacancy implements IdMechanism, Comparable<Vacancy>{
     }
     
     @Override
-    public final void checkId(Integer id) throws IllegalArgumentException{
+    public final void checkId(Long id) throws IllegalArgumentException{
         String actual = String.valueOf(id);
         
         if (!actual.matches(idPattern)){
@@ -110,22 +112,21 @@ public class Vacancy implements IdMechanism, Comparable<Vacancy>{
     }
 
     @Override
-    public final void createId(Integer id) {
-        Integer creation = Integer.valueOf("1" + this.employer.getId().toString() + id.toString());
+    public final void createId(Long id) {
+        Long creation = Long.valueOf("1" + this.employer.getId().toString() + id.toString());
         setId(creation);
     }
     
     public Float checkKeywords(String keywords){
         String search = keywords.toLowerCase().strip();
-        CharSequence chars = (CharSequence) search.chars();
+//        CharSequence chars = search.chars();
         Float coincidence = Float.valueOf(0);
         TreeMap<String, Float> parts = new TreeMap<>();
-        parts.put(this.title, Float.valueOf(1));
-        parts.put(this.description, 0.4f);
-        parts.put(this.employer.getName(), 1.5f);
-        
+        parts.put(this.title.toLowerCase(), Float.valueOf(1));
+        parts.put(this.description.toLowerCase(), 0.4f);
+        parts.put(this.employer.getName().toLowerCase(), 1.5f);
         for(Map.Entry<String, Float> entry : parts.entrySet()){
-            coincidence += entry.getValue().floatValue() * (entry.getKey().contains(chars)?1:0);
+            coincidence += entry.getValue().floatValue() * (entry.getKey().contains(search)?1:0);
         }
         
         return coincidence;

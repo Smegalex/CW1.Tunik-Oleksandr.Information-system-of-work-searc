@@ -18,6 +18,7 @@
             <div class="mainContainer">
                 <header>
                     <nav>
+                        <a class="homeLink" href="${pageContext.request.contextPath}/vacancies"><img src="<c:url value='/resources/img/home.png'/>" alt="home icon"/></a>
                         <form action="search" method="GET">
                             <input type="text" name="searchText" placeholder="Search...">
                             <input type="hidden" name="command" value="search">

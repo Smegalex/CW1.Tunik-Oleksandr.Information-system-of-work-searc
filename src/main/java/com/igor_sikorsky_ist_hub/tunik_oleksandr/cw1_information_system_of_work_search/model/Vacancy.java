@@ -5,21 +5,24 @@
 package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
  *
  * @author sasha
  */
-public class Vacancy implements IdMechanism{
-    private Integer id; //id pattern: 11* (starts with "11")
+public class Vacancy implements IdMechanism, Comparable<Vacancy>{
+    private Integer id; //id pattern: 1* (starts with "1")
     private String title;
     private String description;
     private final Employer employer;
     private final LocalDateTime dateTimePosted;
     private TreeMap<Integer, VacancyAnswer> answers = new TreeMap<>();
     private boolean openStatus = true;
-    private final String idPattern = "^[1]{2}.+";
+    private final String idPattern = "^[1].+";
+    final static DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
     public Vacancy(Integer id, String title, String description, Employer employer) {
         checkId(id);
@@ -48,7 +51,7 @@ public class Vacancy implements IdMechanism{
         VacancyAnswer vacancyAnswer = new VacancyAnswer(this, employee, answer);
         vacancyAnswer.createId(id);
         
-        this.answers.put(id, vacancyAnswer);
+        this.answers.put(vacancyAnswer.getId(), vacancyAnswer);
     }
 
     public void setOpenStatus(boolean openStatus) {
@@ -57,6 +60,10 @@ public class Vacancy implements IdMechanism{
 
     public LocalDateTime getDateTimePosted() {
         return dateTimePosted;
+    }
+    
+    public String formatTime(){
+        return dateTimePosted.format(CUSTOM_FORMATTER);
     }
 
     public String getTitle() {
@@ -97,23 +104,36 @@ public class Vacancy implements IdMechanism{
     public final void checkId(Integer id) throws IllegalArgumentException{
         String actual = String.valueOf(id);
         
-        if (actual.matches(idPattern)){
+        if (!actual.matches(idPattern)){
             throw new IllegalArgumentException("Incorrect id pattern for Vacancy");
         }
     }
 
     @Override
     public final void createId(Integer id) {
-        Integer creation = Integer.valueOf("11" + this.employer.getId().toString() + id.toString());
+        Integer creation = Integer.valueOf("1" + this.employer.getId().toString() + id.toString());
         setId(creation);
     }
     
-    public boolean checkKeywords(String keywords){
+    public Float checkKeywords(String keywords){
         String search = keywords.toLowerCase().strip();
-        if(this.title.contains((CharSequence) search.chars())){
-            return true;
-        } 
-        return this.description.contains((CharSequence) search.chars());
+        CharSequence chars = (CharSequence) search.chars();
+        Float coincidence = Float.valueOf(0);
+        TreeMap<String, Float> parts = new TreeMap<>();
+        parts.put(this.title, Float.valueOf(1));
+        parts.put(this.description, 0.4f);
+        parts.put(this.employer.getName(), 1.5f);
+        
+        for(Map.Entry<String, Float> entry : parts.entrySet()){
+            coincidence += entry.getValue().floatValue() * (entry.getKey().contains(chars)?1:0);
+        }
+        
+        return coincidence;
+    }
+
+    @Override
+    public int compareTo(Vacancy o) {
+        return this.getDateTimePosted().compareTo(o.getDateTimePosted());
     }
     
     

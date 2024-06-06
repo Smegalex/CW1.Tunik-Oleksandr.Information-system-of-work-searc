@@ -1,0 +1,252 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 5 черв. 2024 р., 20:33:09
+    Author     : sasha
+*/
+html,body{
+    margin: 0;
+    padding: 0;
+}
+html{
+    height: calc(100vh - 5px);
+    width: 100vw;
+    font-family: Roboto;
+}
+body{
+    padding: 5px;
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
+}
+.pageWrapper{
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mainContainer{
+    height: 100%;
+    width: 80%;
+    max-width: 1200px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+header{
+    height: 70px;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+nav{
+    width: 100%;
+    padding:     5px;
+    height: calc(100% - 10px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+nav > form{
+    min-width: 80%;
+    display: flex;
+    align-self: center;
+}
+nav > form input[type="text"]{
+    flex-grow: 1;
+}
+form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    
+}
+form input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+form input[type="submit"]:hover {
+    background-color: #004494;
+}
+
+nav>a{
+    flex-grow: 1;
+    padding-left: 15%;
+}
+
+a{
+    height: 80%;
+    display: flex;
+    align-items: center;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 600;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+a:active {
+    color: #007bff;
+    text-decoration: none;
+    outline: none;
+}
+
+img{
+
+    height: inherit;
+    width: inherit;
+}
+
+.vacanciesBody {
+    padding: 20px;
+    overflow: auto;
+}
+
+.vacancyContainer {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.vacancyContainer h3 {
+    margin-top: 0;
+}
+
+.vacancyContainer p {
+    color: #333;
+}
+
+.vacancyContainer form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.vacancyContainer form input[type="submit"] {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.vacancyContainer form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/*Showing a popup message*/
+
+.popupContainer{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.popupContent{
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.success > .popupContent > button{
+    background-color: #28a745;
+}
+
+.success > .popupContent > button:hover {
+    background-color: #218838;
+}
+
+.error > .popupContent > button {
+    background-color: #dc3545;
+}
+
+.error > .popupContent > button:hover {
+    background-color: #c82333;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 20%;
+}
+
+.login-form {
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vacancy-details {
+    padding: 20px;
+}
+
+.vacancy-details h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.vacancy-details h3 {
+    margin-top: 10px;
+    color: #666;
+}
+
+.vacancy-details span {
+    display: block;
+    margin-bottom: 15px;
+    color: #999;
+}
+
+.vacancy-details p {
+    color: #333;
+}
+
+.leaveAnswer{
+    display: none;
+}
+
+.showing {
+    display: flex;
+}

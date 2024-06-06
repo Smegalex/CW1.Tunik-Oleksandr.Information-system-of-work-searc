@@ -4,20 +4,19 @@
  */
 package com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.dao;
 
-import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Vacancy;
+import com.igor_sikorsky_ist_hub.tunik_oleksandr.cw1_information_system_of_work_search.model.Employer;
 import java.util.Collection;
 
 /**
  *
  * @author sasha
  */
-public interface VacancyDao {
+public interface EmployerDao {
     //CRUD
-    void create(Vacancy vacancy);
-    Vacancy findById(Integer id);
-    Collection<Vacancy> findAll();
-    void update(Vacancy vacancy);
+    void create(Employer employer);
+    Employer findById(Integer id);
+    Employer findByLogin(String login);
+    Collection<Employer> findAll();
+    void update(Employer employer);
     void deleteById(Integer id);
 }
-
-

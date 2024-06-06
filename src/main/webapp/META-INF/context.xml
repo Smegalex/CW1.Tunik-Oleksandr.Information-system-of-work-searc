@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/CW1.Tunik-Oleksandr.Information-system-of-work-search"/>
+<Context path="/CW1.Tunik-Oleksandr.Information-system-of-work-search">
+
+    <ResourceLink name="UserDatabase" global="UserDatabase"
+                  type="org.apache.catalina.UserDatabase" />
+
+</Context>

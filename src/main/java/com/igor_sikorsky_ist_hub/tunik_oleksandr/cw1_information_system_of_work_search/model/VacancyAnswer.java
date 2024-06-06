@@ -17,7 +17,7 @@ public class VacancyAnswer implements IdMechanism {
     private final Employee employee;
     private final LocalDateTime dateTimeAnswer;
     private final String answer;
-    private final String idPattern = "^[1][2].+"; //id pattern: 12[vacancyId][employeeId][id] (starts with "12")
+    private final String idPattern = "^[2].+"; //id pattern: 2[vacancyId][employeeId][id] (starts with "2")
 
     public VacancyAnswer(Integer id, Vacancy vacancy, Employee employee, String answer) {
         checkId(id);
@@ -39,7 +39,7 @@ public class VacancyAnswer implements IdMechanism {
 
     @Override
     public void createId(Integer id) {
-        Integer creation = Integer.valueOf("12" + this.vacancy.getId().toString() + this.employee.getId().toString() + id.toString());
+        Integer creation = Integer.valueOf("2" + this.employee.getId().toString() + this.vacancy.getId().toString() + id.toString());
         setId(creation);
     }
 
@@ -65,7 +65,7 @@ public class VacancyAnswer implements IdMechanism {
     public final void checkId(Integer id) throws IllegalArgumentException {
         String actual = String.valueOf(id);
 
-        if (actual.matches(idPattern)) {
+        if (!actual.matches(idPattern)) {
             throw new IllegalArgumentException("Incorrect id pattern for VacancyAnswer");
         }
     }
